@@ -16,30 +16,14 @@ ORDER BY 1;
 -- Bounce session is the session that user does not raise any click after landing on the website
 -- Bounce_rate = num_bounce/total_visit                     
 
-WITH get_bounce_info_July2017 AS (
-       SELECT 
-             trafficSource.source AS source, 
-             COUNT (trafficSource.source) AS total_visits, 
-             SUM (totals.bounces) AS total_no_of_bounces,
-       FROM  `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`
-       GROUP BY 1)
- SELECT 
-       source, 
-       total_visits, 
-       total_no_of_bounces, 
-       total_no_of_bounces*100.0/total_visits AS bounce_rate
- FROM get_bounce_info_July2017
- ORDER BY 2 DESC;
-
---e có thể ghi trực tiếp luôn 
 SELECT
-    trafficSource.source as source,
-    sum(totals.visits) as total_visits,
-    sum(totals.Bounces) as total_no_of_bounces,
-    (sum(totals.Bounces)/sum(totals.visits))* 100 as bounce_rate
+    trafficSource.source AS source,
+    sum(totals.visits) AS total_visits,
+    sum(totals.Bounces) AS total_no_of_bounces,
+    (sum(totals.Bounces)/sum(totals.visits))* 100 AS bounce_rate
 FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`
-GROUP BY source
-ORDER BY total_visits DESC;
+GROUP BY 1
+ORDER BY 2 DESC;
 
 
 -- Query 3: Revenue by traffic source by week, by month in June 2017
